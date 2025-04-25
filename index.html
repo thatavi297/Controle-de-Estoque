@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Controle de Estoque</title>
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    let isLoggedIn = false;
+
+    // Função para realizar login
+    function login() {
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (username === "admin" && password === "1234") {
+        isLoggedIn = true;
+        alert("Login bem-sucedido!");
+        document.getElementById("login-form").style.display = "none";
+        document.getElementById("main-content").style.display = "block";
+      } else {
+        alert("Credenciais incorretas.");
+      }
+    }
+
+    // Função para sair do sistema
+    function logout() {
+      isLoggedIn = false;
+      alert("Você saiu com sucesso.");
+      document.getElementById("login-form").style.display = "block";
+      document.getElementById("main-content").style.display = "none";
+    }
+  </script>
+  <style>
+    /* Estilo para a tela de login */
+    #login-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: #4B1E28;
+      color: #F5F5F5;
+    }
+
+    #login-form input {
+      padding: 10px;
+      margin: 5px 0;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      outline: none;
+    }
+
+    #login-form button {
+      padding: 10px;
+      background-color: #7B2E41;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    #login-form button:hover {
+      background-color: #A63A50;
+    }
+
+    /* Área principal - esconde até fazer login */
+    #main-content {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Tela de Login -->
+  <div id="login-form">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Nome de Usuário" />
+    <input type="password" id="password" placeholder="Senha" />
+    <button onclick="login()">Entrar</button>
+  </div>
+
+  <!-- Conteúdo principal - exibido após login -->
+  <div id="main-content">
+    <main class="layout">
+      <!-- Área principal -->
+      <div class="container">
+        <h1>Controle de Estoque</h1>
+
+        <!-- Inserção de novo produto -->
+        <div class="form">
+          <h2>Inserção de Novo Produto</h2>
+          <input type="text" id="new-code" placeholder="Código do Produto" />
+          <input type="text" id="new-name" placeholder="Nome do Produto" />
+          <input type="number" id="new-quantity" placeholder="Quantidade Inicial" />
+          <input type="number" id="new-price" placeholder="Valor Unitário" step="0.01" />
+          <button onclick="addNewProduct()">Cadastrar Produto</button>
+        </div>
+
+        <!-- Entrada -->
+        <div class="form">
+          <h2>Entrada de Produto (Reposição)</h2>
+          <input type="text" id="entry-code" placeholder="Código do Produto" />
+          <input type="number" id="entry-quantity" placeholder="Quantidade a Adicionar" />
+          <button onclick="addEntry()">Registrar Entrada</button>
+        </div>
+
+        <!-- Saída -->
+        <div class="form">
+          <h2>Saída de Produto</h2>
+          <input type="text" id="exit-code" placeholder="Código do Produto" />
+          <input type="number" id="exit-quantity" placeholder="Quantidade a Retirar" />
+          <button onclick="addExit()">Registrar Saída</button>
+        </div>
+
+        <button onclick="logout()">Sair</button>
+      </div>
+
+      <!-- Lado direito: Resumo + Estoque -->
+      <div class="sidebar">
+        <div class="summary">
+          <h2>Resumo do Estoque</h2>
+          <p id="total-quantity">Quantidade Total: 0</p>
+          <p id="total-value">Valor Total: R$ 0,00</p>
+        </div>
+
+        <div class="product-list">
+          <h2>Estoque Atual</h2>
+          <ul id="product-list"></ul>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
